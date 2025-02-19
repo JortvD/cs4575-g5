@@ -184,19 +184,23 @@ class Chromium:
 		
 		raise Exception('Platform not supported')
 	
-	def args(self, tab_url, extension_folders=[]):
-		extension_folders_str = ','.join(extension_folders)
+	def args(self, tab_url, extensions_folders=[], expect_extensions_loaded=False):
+		extension_folders_str = ','.join(extensions_folders)
 		arguments = [
 			os.path.join(self.get_folder(), "chrome.exe"), 
 			f'--user-data-dir={self.get_user_folder()}', 
 			f'--remote-debugging-port={self.remote_debugging_port}', 
 			'--no-first-run', 
 			'--disable-component-extensions-with-background-pages', 
+			'--disable-default-apps',
 			tab_url
 		]
 
-		if len(extension_folders) > 0:
+		if expect_extensions_loaded:
+			arguments.insert(1, f'--disable-extensions-except={extension_folders_str}')
+		elif len(extensions_folders) > 0:
 			arguments.insert(1, f'--load-extension={extension_folders_str}')
+
 		
 		return arguments
 	
@@ -216,10 +220,16 @@ class Chromium:
 		requests.get(f'{self.devtools_url}/close/{tab_id}')
 
 	def close_all_tabs(self):
-		data = self.dev_data()
+		try:
+			data = self.dev_data()
+		except:
+			return
 
 		for tab in data:
-			self.close_tab(tab['id'])
+			try:
+				self.close_tab(tab['id'])
+			except:
+				return
 
 chromium_dl = ChromiumDownloader()
 ublock_dl = UBlockDownloader()
@@ -236,14 +246,14 @@ print("1. If you get a warning about developer mode, you can turn it on in the t
 print("2. Please enable AdNauseam.")
 print("3. AdNauseam will open a new tab. Please select all the options and click on 'Let's go!'")
 print("4. Close the window.")
-subprocess.run(chromium.args('chrome://extensions/', [adnauseam_dl.get_folder()]))
+subprocess.run(chromium.args('chrome://extensions/', [adnauseam_dl.get_folder(), ublock_dl.get_folder()]))
 
 print("Did everything go successfully? (y/n)")
 
 response = input()
 if response.lower() != 'y':
 	print("Please try again.")
-	subprocess.run(chromium.args('chrome://extensions/', [adnauseam_dl.get_folder()]))
+	subprocess.run(chromium.args('chrome://extensions/', [adnauseam_dl.get_folder(), ublock_dl.get_folder()]))
 
 SITES = [
 	"https://google.com",
@@ -258,7 +268,7 @@ async def test():
 	time = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
 	output_file = os.path.join(OUTPUT_FOLDER, f'{time}.txt')
 	args = [ENERGIBRIDGE, '-o', output_file, '--summary', '--gpu']
-	args.extend(chromium.args('chrome://newtab', [adnauseam_dl.get_folder()]))
+	args.extend(chromium.args('chrome://newtab', [adnauseam_dl.get_folder()], True))
 
 	proc = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
@@ -274,6 +284,7 @@ async def test():
 		await asyncio.sleep(10)
 
 		chromium.close_tab(last_tab_id)
+		print(f'Closed {site} (ID: {last_tab_id})')
 
 		# Give time for the tab to close
 		await asyncio.sleep(2)
@@ -283,5 +294,7 @@ async def test():
 
 	# Close Chromium
 	proc.kill()
+	await asyncio.sleep(2)
+	chromium.close_all_tabs()
 
 asyncio.run(test())
