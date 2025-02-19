@@ -256,19 +256,25 @@ if response.lower() != 'y':
 	subprocess.run(chromium.args('chrome://extensions/', [adnauseam_dl.get_folder(), ublock_dl.get_folder()]))
 
 SITES = [
-	"https://google.com",
-	"https://bing.com",
-	"https://reddit.com",
-	"https://youtube.com",
+	"https://www.google.com/search?q=claude&sca_esv=d7fda70d376aac72&source=hp&ei=Czi2Z9bCOsWBi-gPrZ7JkA0&iflsig=ACkRmUkAAAAAZ7ZGGzXKhCjGZthWEGZX_ojZ1bmP9_72&gs_ss=1&oq=&gs_lp=Egdnd3Mtd2l6IgAqAggAMgoQABgDGOoCGI8BMgoQABgDGOoCGI8BMgoQABgDGOoCGI8BMgoQLhgDGOoCGI8BMgoQLhgDGOoCGI8BMgoQABgDGOoCGI8BMgoQLhgDGOoCGI8BMgoQABgDGOoCGI8BMgoQABgDGOoCGI8BMgoQABgDGOoCGI8BSJwVUABYAHAAeACQAQCYATagATaqAQExuAEByAEAmAIBoAI6qAIKmAM68QWxBhdwscCRIJIHATGgB5pL&sclient=gws-wiz",
+	"https://www.bing.com/search?q=claude&form=QBLH&sp=-1&ghc=1&lq=0&pq=claude&sc=13-6&qs=n&sk=&cvid=D2A6F4B6212749CD8D15163362238CAA&ghsh=0&ghacc=0&ghpl=",
+	"https://www.reddit.com/",
+	"https://www.youtube.com/watch?v=KDorKy-13ak",
+	"https://www.facebook.com/zuck/?locale=nl_NL",
+	"https://chatgpt.com/",
+	"https://search.yahoo.com/search?p=claude&fr=yfp-t&fr2=p%3Afp%2Cm%3Asb&ei=UTF-8&fp=1",
+	"https://www.linkedin.com/in/satyanadella",
+	"https://nl.pinterest.com/ideas/",
+	"https://www.twitch.tv/",
 ]
 
 ENERGIBRIDGE = r"C:\Users\JortvD\Downloads\energibridge-v0.0.7-x86_64-pc-windows-msvc\energibridge"
 
 async def test():
 	time = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
-	output_file = os.path.join(OUTPUT_FOLDER, f'{time}.txt')
+	output_file = os.path.join(OUTPUT_FOLDER, f'{time}.csv')
 	args = [ENERGIBRIDGE, '-o', output_file, '--summary', '--gpu']
-	args.extend(chromium.args('chrome://newtab', [adnauseam_dl.get_folder()], True))
+	args.extend(chromium.args('chrome://newtab', [], False))
 
 	proc = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
