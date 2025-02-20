@@ -380,7 +380,7 @@ class Experiment:
 		],
 		"LOW": [
 			"https://www.nasa.gov/image-article/our-pale-blue-dot/", # 4
-			"https://www.bellingcat.com/news/uk-and-europe/2025/01/28/deepfake-porn-sites-link-to-tech-companies/", # 3
+			"https://www.bellingcat.com/news/2024/12/18/ukraine-outraged-at-yemen-grain-shipment-from-occupied-crimea/", # 3
 			"https://commission.europa.eu/topics/agriculture-and-rural-development/future-agriculture_en", # 0
 
 			# "https://www.axios.com/2025/02/20/trump-tariffs-ceo-confidence", # 6
