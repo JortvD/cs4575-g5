@@ -181,11 +181,25 @@ class Chromium:
 		
 		raise Exception('Platform not supported')
 	
+	def get_executable(self):
+		platform_name = platform.system()
+
+		if platform_name == 'Windows':
+			return os.path.join(self.get_folder(), 'chrome.exe')
+		elif platform_name == 'Darwin':
+			return os.path.join(self.get_folder(), 'Chromium.app', 'Contents', 'MacOS', 'Chromium')
+		elif platform_name == 'Linux':
+			return os.path.join(self.get_folder(), 'chrome')
+		
+		raise Exception('Platform not supported')
+	
 	def args(self, tab_url, extensions_folders=[], expect_extensions_loaded=False):
 		extensions_folders = [folder for folder in extensions_folders if folder is not None]
 		extension_folders_str = ','.join(extensions_folders) if extensions_folders is not None else ''
 		arguments = [
-			os.path.join(self.get_folder(), "chrome.exe"), 
+			self.get_executable(), 
+			'--disable-background-networking',
+			'--disable-background-timer-throttling',
 			f'--user-data-dir={self.get_user_folder()}', 
 			f'--remote-debugging-port={self.remote_debugging_port}', 
 			'--no-first-run', 
