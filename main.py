@@ -200,7 +200,6 @@ class Chromium:
 			self.get_executable(), 
 			'--disable-background-networking',
 			'--disable-background-timer-throttling',
-			f'--user-data-dir={self.get_user_folder()}', 
 			f'--remote-debugging-port={self.remote_debugging_port}', 
 			'--no-first-run', 
 			'--disable-component-extensions-with-background-pages', 
@@ -265,12 +264,11 @@ class Step:
 
 		for site in self.site_set:
 			print(f'> Opening {site}')
-			subprocess.run(self.chromium.args(site))
-			last_tab_id = self.chromium.get_last_tab_id()
-
+			subprocess.run(self.chromium.args(site, [self.extension_folder]))
 			# Give time for the tab to load
 			await asyncio.sleep(5)
 
+			last_tab_id	 = self.chromium.get_last_tab_id()
 			self.chromium.close_tab(last_tab_id)
 
 			# Give time for the tab to close
@@ -278,7 +276,12 @@ class Step:
 
 		# Close Chromium
 		print('> Closing Chromium')
-		proc.kill()
+		proc.terminate()
+		stdout, stderr = proc.communicate()
+		print("> EnergiBridge stderr:")
+		print(stderr.decode('utf-8'))
+		#print("> EnergiBridge stdout:")
+		#print(stdout.decode('utf-8'))
 		await asyncio.sleep(1)
 		self.chromium.close_all_tabs()
 		await asyncio.sleep(5)
@@ -349,7 +352,7 @@ class StepSet:
 		self.chromium.close_all_tabs()
 		await asyncio.sleep(3)
 		
-		self.update_preferences()
+		#self.update_preferences()
 
 	async def run(self):
 		start_time = time.time()
@@ -368,7 +371,7 @@ class StepSet:
 class Experiment:
 	SITES = {
 		"HIGH": [
-			# "https://www.reuters.com/business/media-telecom/amazons-mgm-studios-take-creative-control-over-james-bond-franchise-2025-02-20/", # 35
+			"https://www.reuters.com/business/media-telecom/amazons-mgm-studios-take-creative-control-over-james-bond-franchise-2025-02-20/", # 35
 			"https://www.msn.com/nl-nl", # 44
 			"https://apnews.com/article/exercise-recovery-injury-workout-rest-2ffce1799725037b0142657db62d9e8d", # 72
 			"https://www.npr.org/2025/02/15/nx-s1-5262600/movie-watch-six-spring-movies-to-get-excited-about", # 65
@@ -433,9 +436,9 @@ args_def.add_argument('--temp-dir', type=str, help='Temporary folder', default='
 args_def.add_argument('-o', '--output', type=str, help='Output folder', default='output')
 args_def.add_argument('-n', '--n-sets', type=int, help='Number of sets', default=1)
 args_def.add_argument('--add-warmup', action='store_true', help='Round one round as warmup', default=True)
-args_def.add_argument('-e', '--energibridge', type=str, help='Path to Energibridge executable', default=r"C:\Users\JortvD\Downloads\energibridge-v0.0.7-x86_64-pc-windows-msvc\energibridge")
+args_def.add_argument('-e', '--energibridge', type=str, help='Path to Energibridge executable', default=r"../EnergiBridge/target/release/energibridge")
 args_def.add_argument('--index', type=int, help='Index of the experiment', default=0)
-args = args_def.parse_args()
+args = args_def.parse_args()	
 
 if __name__ == '__main__':
 	DATA_FOLDER = args.temp_dir
