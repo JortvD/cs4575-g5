@@ -1,35 +1,52 @@
 ---
-author: Student1 first and last name, Student2, Student3
+author: Weicheng Hu, Jort, Dorian, Giannos
 title: "Investigating how plug-ins in browsers affect energy consumption"
 image: "../img/p1_measuring_software/gX_template/cover.png"
 date: 28/02/2025
 summary: |-
-  This study evaluates the energy consumption of web browsers under different configurations and environments. 
-  Specifically, we compare Chrome and Firefox with three conditions: no extension, uBlock Origin on/off, 
-  and Ad Nauseam on/off. uBlock Origin and Ad Nauseam are different extensions that serve the same purpose - blocking advertisements during navigation for users.
+  This study evaluates the energy consumption of a chosen web browser under different configurations and environments. 
+  Specifically, we compare Chrome with three conditions: uBlock Origin on/off. Then we compare the power use across different websites,
+  where each website has many/moderate/almost no ads. uBlock Origin is an extension that blocks advertisements during navigation for users.
   The goal is to assess how these extensions impact power usage.
 ---
 
-# Introduction
-<!-- This problem takes another level if we are counting on these measurements to make **groundbreaking research contributions** in this area. Some research projects in the past have underestimated this issue and failed to produce replicable findings. Hence, this article presents a roadmap on how to properly set up a scientific methodology to run energy efficiency experiments. It mostly stems from my previous work on [doing research and publishing](/publications) on Green Software.
+## Introduction
+Online advertising has become one of the primary revenue streams for many websites. However, ads are not just an avenue for monetization; they also influence the user experience in numerous ways. Some users find ads annoying, or they worry about tracking and privacy, which leads to growing popularity of ad-blocking software. Due to the increasing demands for add-free, concerns about performance impacts, such as increased CPU usage, slower loading times, and higher battery consumption on devices might be a concern in the field of sustainable engineering. 
 
-This article is divided into two main parts: 1) how to set up energy measurements with minimum bias, and 2) how to analyse and take scientific conclusions from your energy measurements.
-Read on so that we can get your paper accepted in the best scientific conference. -->
+Although some studies have looked at performance changes associated with ad blocking[1], fewer have examined how the amount of advertisements could affect energy consumption. Moreover, there is no mentions among the studies that they take external factors that might affect the experiments into account. For example, making sure the room temperature is constant, connecting to the same wifi/power supply during the experiment. Meanwhile, we will be using a different energy measurement framework called EnergiBridge[2] to reduce biases.
+
+
 
 --- 
 
-# Methodologies
+## Methodologies
+- describe how the script works?
 
 ---
 
-# Experiments and results
+## Experiments and results
 
-##  Experimental Setup
+###  Experimental Setup
+- baseline: visiting websites with no extensions
+- Device detail(CPU/RAM/Operating System...)
+- Number of epoches
+- Controlled variables: room temperature, device temperature, no other windows open...(or keep constant during the experiment)
+- the metrics we use: Joules, Watts(?), percentage increasing/decreasing in energy consumption against baseline
+### Results
+- Normally distributed -> use mean and std to generate a plot
+- Otherwise: Try remove the anomaly, significance tests if not applicable
 
-## Results
+## Conclusions and Future Works
+- number of ads affect the energy consumption
+- The extension increases energy consumption if the website does not have advertisements
+- In percentage, extension on is the most effective when there are moderate number of ads
+- posible reasons: 
 
-# Conclusions and Future Works
 
+## References
+[1] Khan, K. A., Iqbal, M. T., & Jamil, M. (2024). Impact of Ad Blockers on Computer Power Consumption while Web Browsing: A Comparative Analysis. European Journal of Electrical Engineering and Computer Science, 8(5), 18-24.
+
+[2] EnergiBridge (2024). https://github.com/tdurieux/EnergiBridge
 <!-- #### 👉 Note 1:
 If you are a **software developer** enthusiastic about energy efficiency but you are not particularly interested in scientific experiments, this article is still useful for you. It is not necessary to do "everything by the book" but you may use one or two of these techniques to reduce the likelihood of making wrong decisions regarding the energy efficiency of your software.
 
