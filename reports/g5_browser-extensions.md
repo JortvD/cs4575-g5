@@ -67,6 +67,44 @@ The experiments were conducted on two different devices, each equipped with dist
 ## Results
 The experiments can be found on the [Github repository](https://github.com/JortvD/cs4575-g5). 
 
+![Distribution of total CPU energy per set](per-set.png)
+![Distribution of total CPU energy per site](per-site.png)
+
+| Set    |   Mean (No uBlock) |   Mean (With uBlock) |   Std Dev (No uBlock) |   Std Dev (With uBlock) |   Shapiro-Wilk (No uBlock) |   Shapiro-Wilk (With uBlock) | t-test (p)   | U-test (p)   |
+|:-------|-------------------:|---------------------:|----------------------:|------------------------:|---------------------------:|-----------------------------:|:-------------|:-------------|
+| HIGH   |            167.109 |              137.896 |                11.508 |                  11.865 |                      0     |                        0.026 | N/A          | <0.001       |
+| MEDIUM |            181.628 |              124.173 |                 3.465 |                   2.871 |                      0.622 |                        0.826 | <0.001       | N/A          |
+| LOW    |             97.948 |               99.112 |                 0.95  |                   1.243 |                      0.796 |                        0.419 | <0.001       | N/A          |
+
+| Set    |   Mean diff (ΔX) |   Mean change (%) |   Effect size (Cohen's d) |
+|:-------|-----------------:|------------------:|--------------------------:|
+| HIGH   |          -29.212 |          -17.481% |                       N/A |
+| MEDIUM |          -57.455 |          -31.633% |                   -18.058 |
+| LOW    |            1.163 |            1.188% |                     1.052 |
+
+| Domain               |   Mean (No uBlock) |   Mean (With uBlock) |   Std dev (No uBlock) |   Std dev (With uBlock) |   Shapiro-Wilk (No uBlock) |   Shapiro-Wilk (With uBlock) | t-test (p)   | U-test (p)   |
+|:---------------------|-------------------:|---------------------:|----------------------:|------------------------:|---------------------------:|-----------------------------:|:-------------|:-------------|
+| www.msn.com          |             45.958 |               41.294 |                 0.835 |                   0.853 |                      0.758 |                        0.061 | <0.001       | N/A          |
+| apnews.com           |             66.957 |               69.932 |                 9.102 |                  11.969 |                      0     |                        0.003 | N/A          | 0.149        |
+| www.npr.org          |             55.04  |               27.226 |                 3.936 |                   0.425 |                      0.474 |                        0.605 | <0.001       | N/A          |
+| www.vice.com         |             44.294 |               36.205 |                 2.545 |                   2.917 |                      0.035 |                        0.809 | N/A          | <0.001       |
+| www.nytimes.com      |             76.414 |               62.587 |                 2.638 |                   1.669 |                      0.103 |                        0.941 | <0.001       | N/A          |
+| time.com             |             62.127 |               26.137 |                 2.568 |                   0.413 |                      0.563 |                        0.329 | <0.001       | N/A          |
+| www.nasa.gov         |             39.895 |               40.058 |                 0.512 |                   0.509 |                      0.18  |                        0.505 | 0.275        | N/A          |
+| www.bellingcat.com   |             25.621 |               26.211 |                 0.471 |                   0.702 |                      0.788 |                        0.944 | <0.001       | N/A          |
+| commission.europa.eu |             32.104 |               32.419 |                 0.679 |                   0.797 |                      0.14  |                        0.259 | 0.124        | N/A          |
+
+| Domain               |   Mean diff (ΔX) | Mean change (%)   | Effect size (Cohen's d)   |
+|:---------------------|-----------------:|:------------------|:--------------------------|
+| www.msn.com          |           -4.664 | -10.148%          | -5.525                    |
+| apnews.com           |            2.975 | 4.442%            | N/A                       |
+| www.npr.org          |          -27.813 | -50.533%          | -9.935                    |
+| www.vice.com         |           -8.089 | -18.261%          | N/A                       |
+| www.nytimes.com      |          -13.827 | -18.095%          | -6.265                    |
+| time.com             |          -35.99  | -57.929%          | -19.571                   |
+| www.nasa.gov         |            0.163 | 0.408%            | 0.319                     |
+| www.bellingcat.com   |            0.589 | 2.3%              | 0.986                     |
+| commission.europa.eu |            0.315 | 0.98%             | 0.425                     |
 
 # Conclusions and Future Works
 
