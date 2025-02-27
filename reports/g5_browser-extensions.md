@@ -74,6 +74,44 @@ The experiments were conducted on two different devices, each equipped with dist
 ## Results
 The replication package for these experiments can be found on the [Github repository](https://github.com/JortvD/cs4575-g5). 
 
+
+
+
+The violin plots for the data colected are presented below (blue is the original distribution and orange is the distribution with no outliers):
+
+### 1. A Lot of Ads
+![image](./images/Untitled.png)
+
+Set 0 refers to the websites containg a lot of ads. As can be seen the distributions are not normal. There a few possible reasons for why the distributions have two peaks.
+
+One of them has to do with the browser cache. In particular, when these data were collected the script used to run the browser twice for each website before resetting the cache. Once with the adblock add-on and once without, chosing at random which to run first. Thus it is possible that the websites were cached the first time and then loading them the second time was faster and consumed less energy creating the two peaks for both the distributions.
+
+Another reason has to do with the network. It is possible that sometimes the websites loaded faster and other times slower, resulting into multiple peaks.
+
+In any case, the distributions, despite not being normal, visibly demonstrate that with the adblock (distribution 1 on the graph) less energy is spent. This was expected because the website no longer loads ads and doesn't consume any energy at displaying them.
+
+### 2. Some Ads
+![image](./images/Untitled(1).png)
+
+Set 1 refers to websites containing some amount of ads. Some interesting observations can be made here.
+
+For one, the second peak in the distributions no longer exists or is very tiny if outliers are included. This can possibly be explained by the caching effect not being as signifcant possibly because the websites contain less ads than before and there is less data to cache.
+
+In addition, we still see that the browser with the adblock is clearly more energy efficient. Again this happens because the non-ad version of the website loads less resourses and displays less content. 
+
+### 3. No Ads
+![image](./images/Untitled(2).png)
+
+Finally, set 2 refers to websites containing no ads.
+
+As we can see again, the caching effect is minimal for these websites too for the same reasons as before.
+
+In terms of energy efficiency, we can see that the distributions are almost identical, though maybe the adblock version is slightly worse. This was expected because these websites are the same no matter whether they are loaded with or without ads. The adblock may introduce a minimal overhead but it is not significant.
+
+Therefore our results show that in all cases examined, using an adblock is beneficial for energy efficiency.
+
+### All together
+
 ![Distribution of total CPU energy per set](per-set.png)
 ![Distribution of total CPU energy per site](per-site.png)
 
