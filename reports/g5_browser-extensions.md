@@ -1,5 +1,5 @@
 ---
-author: Dorian Erhan, Jort van Driel, Giannos Rekkas, Weicheng Hu
+author: Jort van Driel, Dorian Erhan, Weicheng Hu, Giannos Rekkas
 title: "Investigating how ad blocker plug-ins in browsers affect energy consumption"
 image: "../img/p1_measuring_software/gX_template/cover.png"
 date: 28/02/2025
@@ -15,38 +15,51 @@ summary: |-
 This article is divided into two main parts: 1) how to set up energy measurements with minimum bias, and 2) how to analyse and take scientific conclusions from your energy measurements.
 Read on so that we can get your paper accepted in the best scientific conference. -->
 
-Since its inception, the web has rapidly evolved from a basic information-sharing platform into a profit-driven medium, where online advertising is one of the primary revenue sources. Ads do exist for a reason. They support a significant portion of online content, as most people won't pay real money for most of what they consume. Whether it's a reputable news establishment or a niche blog, every website needs server space and developer support, which requires some degree of monetary investment. 
+Since its inception, the web has rapidly evolved from a basic information-sharing platform into a profit-driven medium, where online advertising is one of the primary revenue sources. Ads do exist for a reason. They support a significant portion of online content, as most people won't pay real money for most of what they consume. Whether it's a reputable news establishment or a niche blog, every website needs server space and developer support, which requires some degree of financial investment. 
 
-However, the rise of online advertising has had a very negative impact on the users. Their overabundance has made the browsing experience cluttered and intrusive. Even worse is the fact that rely on invasive tracking, wihch exploits user data without clear consent, and also facilitate the spread of malicious websites. In response, ad blockers have become a critical tool for users aiming to improve their user experience, privacy, and security while browsing. Even the [FBI recommends ad blockers](https://www.standard.co.uk/news/tech/fbi-recommends-ad-blocker-online-scams-b1048998.html) to avoid falling prey to schemes run by potentially fraudulent websites. 
+However, the rise of online advertising has had a very negative impact on the users. Their overabundance has made the browsing experience cluttered and intrusive. Even worse is the fact that rely on invasive tracking, which exploits user data without clear consent, and also facilitates the spread of malicious websites. In response, ad blockers have become a critical tool for users aiming to improve their user experience, privacy, and security while browsing. Even the [FBI recommends ad blockers](https://www.standard.co.uk/news/tech/fbi-recommends-ad-blocker-online-scams-b1048998.html) to avoid falling prey to schemes run by potentially fraudulent websites. 
 
 The debate around ad blockers has recently been intensified with Google Chrome’s announcement to weaken and remove many ad-blocking extensions, [including uBlock Origin](https://www.theverge.com/2024/10/15/24270981/google-chrome-ublock-origin-phaseout-manifest-v3-ad-blocker), one of the most widely used and effective ad blockers. This decision has sparked significant backlash from users who rely on these tools to improve their browsing experience. Beyond the implications for user experience and privacy, this move also raises questions about the broader impact of ad blockers on environmental efficiency and energy consumption.
 
-In this report, we aim to explore the energy consumption of web browsers with and without ad blockers. Our hypothesis is that ad blockers reduce energy consumption by minimizing the number of extra requests and scripts executed during browsing, thereby decreasing the computational workload on devices.
+Thus, in this report, we aim to explore the power consumption of web browsers with and without ad blockers. Our hypothesis is that ad blockers reduce power usage by minimizing the number of extra requests and scripts executed during browsing, thereby decreasing the computational workload needed. Some studies have previously examined the power consumption associated with ad blocking[1], and generally found a significant decrease in power consumption when using these extensions, though some exceptions have shown instances of increased consumption. 
 
 # Methodology
 
-Energy consumption was measured using [EnergiBridge](https://github.com/tdurieux/EnergiBridge).
+This report analyzes the **average power consumption** of web browsers with and without ad blockers. We focus on power consumption as it provides insight into the continuous usage of browsers over time. All measurementes were conducted using [EnergiBridge](https://github.com/tdurieux/EnergiBridge).
 
-We ensured that configuration settings were kept consistent across the different devices. Aditionally, when executing the experiments we made sure that the laptop was in "zen mode", which included: 
+For this study, we used Chromium version 135.0.7026.0, as it serves as the foundation for many of the most widely used browsers, including Google Chrome, Microsoft Edge, and Brave, making it a strong representative choice. Testing on Chromium ensures that the results are relevant to a broad range of browsers built on the same engine. The ad blocker tested was uBlock Origin version 1.62.0, one of the most popular extensions, with approximately 39 million users listed in the Chrome Web Store.
+
+### Testing setup
+Our study evaluated Chromium's power consumption when browsing websites grouped by advertisement density. We classified websites into three categories — high, medium, and low ad density — with each one containing three different websites.
+
+A **step** is defined as launching Chromium and navigating through all three websites of one category. For each **experimental trial**, we conducted six steps: three (one for each category) with uBlock Origin enabled and three without. To reduce bias, the order of website sets was randomized during each trial. Because hardware temperature can influence power consumption, the very first trial (used as a warm-up) was excluded from the final analysis. In total, we repeated this trial 30 times.
+
+Within each step, the following actions were performed:
+1) Launch Chromium through EnergiBridge.
+2) Open a new tab with the designated website.
+3) Wait 5 seconds to ensure all resources load completely.
+4) Close tab.
+5) Wait 1 second to allow the tab to close properly.
+6) Repeat steps 2–5 for every website in the current set.
+7) Close Chromium and wait 5 seconds before continuing to the next step.
+
+After each trial, we reset all caches and user data genereated before continuing to the next one. Note also that we configure the startup of the browser to automatically enable developer mode, a necessary setting for activating uBlock Origin.
+
+Finally, we ensured that configuration settings were kept consistent across the different devices. When executing the experiments we made sure that the laptop was in "zen mode", which included: 
 - No unnecessary applications/services running
 - All external hardware disconnected from the device
 - Notifications turned off
 - Stable internet connection over ethernet cable
 - Screen brigtness display at 100% 
 
-(Elaborate on this further)
-A single step of the experiment consits of navigating to 10 websites in total. These websites were classified into three different sets, according to their ad density (high, medium and low). A step consisted of opening a new Chrome tab, navigating to the respective website and waiting for 5 seconds, in order to ensure that all relevant resources and requests concluded properly. Each step was repeated 30 times. Since energy consumption is affected by hardware temperature, the first step of the experiment was considered as warp-up and was discarded from the results. 
+### Experimental Setup
 
-
-### Hardware set-up
-
-The experiments were conducted on two different devices, each equipped with distinct operating systems. The specifications for each are specified below:
+The experiments were conducted on two different devices, each equipped with distinct operating systems. By testing across multiple configurations, we can identify whether the impact of ad blocking on power usage is consistent or if it varies depending on the system. The specifications for each are specified below:
 
 | Laptop | Acer Nitro V15               |
 |--------|------------------------------|
 | CPU    | AMD Ryzen 7 7735H            |
 | RAM    | 32 GB                        |
-| GPU    | NVIDIA GeForce RTX 4060 Max-Q|
 | OS     | Fedora Linux 41              |
 
 
@@ -57,18 +70,15 @@ The experiments were conducted on two different devices, each equipped with dist
 |     |                              | 
 |     |                              |
 
-(Justification of why the experiments where ran on different devices?)
-
-
-(Specify version of chrome and ublock used)
-
-##  Experimental Setup
 
 ## Results
-The experiments can be found on the [Github repository](https://github.com/JortvD/cs4575-g5). 
+The replication package for these experiments can be found on the [Github repository](https://github.com/JortvD/cs4575-g5). 
 
 
 # Conclusions and Future Works
+
+# References
+[1] Khan, K. A., Iqbal, M. T., & Jamil, M. (2024). Impact of Ad Blockers on Computer Power Consumption while Web Browsing: A Comparative Analysis. European Journal of Electrical Engineering and Computer Science, 8(5), 18-24.
 
 <!-- #### 👉 Note 1:
 If you are a **software developer** enthusiastic about energy efficiency but you are not particularly interested in scientific experiments, this article is still useful for you. It is not necessary to do "everything by the book" but you may use one or two of these techniques to reduce the likelihood of making wrong decisions regarding the energy efficiency of your software.
