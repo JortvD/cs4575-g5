@@ -353,10 +353,11 @@ class StepSet:
 
 	async def run(self):
 		start_time = time.time()
-		await self.reset_user_data()
 
 		for i, step in enumerate(self.steps):
 			print(f'Step {i + 1}/{len(self.steps)} (of total {self.n_sets * len(self.steps)}) -> options: {step.site_set_index}, {step.extension_folder_index}')
+			
+			await self.reset_user_data()
 			await step.run()
 
 			# Give time for the system to cool down
