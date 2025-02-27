@@ -336,7 +336,7 @@ class StepSet:
 		args = self.chromium.args('chrome://newtab', self.extension_folders)
 		print(f'> Starting Chromium to generate user data')
 		proc = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-		await asyncio.sleep(5)
+		await asyncio.sleep(15)
 
 		print('> Closing Chromium gracefully to generate Preferences file')
 		parent = psutil.Process(proc.pid)
@@ -434,7 +434,7 @@ args_def.add_argument('--temp-dir', type=str, help='Temporary folder', default='
 args_def.add_argument('-o', '--output', type=str, help='Output folder', default='output')
 args_def.add_argument('-n', '--n-sets', type=int, help='Number of sets', default=1)
 args_def.add_argument('--add-warmup', action='store_true', help='Round one round as warmup', default=True)
-args_def.add_argument('-e', '--energibridge', type=str, help='Path to Energibridge executable', default=r"C:\Users\JortvD\Downloads\energibridge-v0.0.7-x86_64-pc-windows-msvc\energibridge")
+args_def.add_argument('-e', '--energibridge', type=str, help='Path to Energibridge executable', default=r"C:\Users\20202571\Downloads\energibridge-v0.0.7-x86_64-pc-windows-msvc\energibridge")
 args_def.add_argument('--index', type=int, help='Index of the experiment', default=0)
 args = args_def.parse_args()
 
