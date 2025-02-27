@@ -157,14 +157,19 @@ Therefore our results show that in all cases examined, using an adblock is benef
 | commission.europa.eu |            0.315 | 0.98%             | 0.425                     |
 
 # Conclusions and Future Works
-The first observation is Ad-Blocking can substantially reduce energy usage, which supports our hypothesis that blocking ads generally decreases energy consumption. This is the most obvious with moderate ads, where using uBlock Origin produced a clear decrease in CPU energy consumption, at times exceeding a 30% reduction (see Table 2). 
-When ads were entirely absent, there was virtually no benefit—and in some cases. In fact, a slight overhead—associated with running the ad blocker (Tables 1 and 2). One of the possible reason is the ad blocker consumes a fixed level of energy while operating.
+Our findings supports our initial hypothesis that ad-blocking can substantially reduce energy usage, supporting our hypothesis that blocking ads decreases CPU power consumption. This effect is most pronounced on websites with moderate to high ad density, where enabling uBlock Origin resulted in a noticeable reduction in energy consumption—exceeding 30% in some cases (see Table 2). The reasoning behind this is straightforward: blocking ads prevents unnecessary network requests and reduces the number of scripts, animations, and video-based advertisements loaded onto the page, thereby lowering CPU workload and energy use.
 
-In the future, we could improve based on 3 aspects:
+However, when browsing ad-free websites, the results indicate that the ad blocker does not contribute any energy savings. In fact, a slight increase in power consumption was observed, likely due to the ad blocker introducing a small, fixed computational overhead while operating.
 
-1. Use other browsers(e.g. Firefox, Edge, Tor...) and other ad-Blocker extensions to reduce biases.
+Additionally, the analysis of CPU energy distributions revealed non-normal distributions for ad-heavy sites. Given that the number of repetitions in our experiments was 30, this sample size may not be sufficient for the distribution to fully converge, particularly for datasets with high variance. Our findings indicate that ad-heavy sites exhibit a higher standard deviation compared to the other sets, suggesting that more trials may be required to converge a stable and meaningful distribution. Increasing the number of repetitions could help reduce variability and provide a clearer picture of the underlying energy consumption patterns.
 
-2. 
+In the future, we could improve based on three main aspects:
+
+1. Since our study focuses on Chromium-based browsers, future research should examine whether the same trends hold for other browser engines such as Mozilla Firefox (Gecko), Microsoft Edge (Chromium-based), and Tor Browser (which prioritizes privacy but may have different energy implications). Similarly, evaluating alternative ad blockers (e.g., AdBlock Plus, Ghostery, Privacy Badger) could determine if their filtering mechanisms have varying impacts on CPU energy usage.
+
+2. Increase Sample Size and Experiment Repetitions. Conducting more trials and increasing the sample size would strengthen the statistical significance of the findings, reducing the effects of random variations in network speed, caching behavior, and background system processes. Moreover, we are likely to get a better shaped normally distributed graph if there are more trials.
+
+3. Analyze GPU and Network Energy Consumption. While our study primarily focused on CPU power usage, the energy consumed by the GPU and network interface could also be interesting to look at. GPU is often used for rendering rich media ads, and ad-blocking may shift some computational load from the GPU to the CPU. Similarly, blocking ads reduces data transmission, which could decrease energy consumption on wireless devices by lowering network activity and bandwidth usage.
 
 # References
 [1] Khan, K. A., Iqbal, M. T., & Jamil, M. (2024). Impact of Ad Blockers on Computer Power Consumption while Web Browsing: A Comparative Analysis. European Journal of Electrical Engineering and Computer Science, 8(5), 18-24.
