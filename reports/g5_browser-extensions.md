@@ -18,7 +18,7 @@ Read on so that we can get your paper accepted in the best scientific conference
 
 Since its inception, the web has rapidly evolved from a basic information-sharing platform into a profit-driven medium, where online advertising is one of the primary revenue sources. Ads do exist for a reason. They support a significant portion of online content, as most people won't pay real money for most of what they consume. Whether it's a reputable news establishment or a niche blog, every website needs server space and developer support, which requires some degree of financial investment. 
 
-However, the rise of online advertising has had a very negative impact on the users. Their overabundance has made the browsing experience cluttered and intrusive. Even worse is the fact that rely on invasive tracking, which exploits user data without clear consent, and also facilitates the spread of malicious websites. In response, ad blockers have become a critical tool for users aiming to improve their user experience, privacy, and security while browsing. Even the [FBI recommends ad blockers](https://www.standard.co.uk/news/tech/fbi-recommends-ad-blocker-online-scams-b1048998.html) to avoid falling prey to schemes run by potentially fraudulent websites. 
+However, the rise of online advertising has had a very negative impact on the users. Their overabundance has made the browsing experience cluttered and intrusive. Even worse is the fact that rely on invasive tracking, which exploits user data without clear consent and also facilitates the spread of malicious websites. In response, ad blockers have become a critical tool for users aiming to improve their user experience, privacy, and security while browsing. Even the [FBI recommends ad blockers](https://www.standard.co.uk/news/tech/fbi-recommends-ad-blocker-online-scams-b1048998.html) to avoid falling prey to schemes run by potentially fraudulent websites. 
 
 The debate around ad blockers has recently been intensified with Google Chrome’s announcement to weaken and remove many ad-blocking extensions, [including uBlock Origin](https://www.theverge.com/2024/10/15/24270981/google-chrome-ublock-origin-phaseout-manifest-v3-ad-blocker), one of the most widely used and effective ad blockers. This decision has sparked significant backlash from users who rely on these tools to improve their browsing experience. Beyond the implications for user experience and privacy, this move also raises questions about the broader impact of ad blockers on environmental efficiency and energy consumption.
 
@@ -63,12 +63,12 @@ The experiments were conducted on one device, for which the specifications are a
 
 <!--Is there more relevent info to add here?-->
 
-As a data processing step we remove the leading 5 seconds of data and only keep 18 seconds of data, 6 seconds for each website. This is done to ensure that the data is consistent across all trials and that the data is not skewed by the loading and closing of the browswer, which we found to not be deterministic.
+As a data processing step we remove the leading 5 seconds of data and only keep 18 seconds of data, 6 seconds for each website. This is done to ensure that the data is consistent across all trials and that the data is not skewed by the loading and closing of the browser, which we found to not be deterministic.
 
 # Results
 > The replication package for these experiments can be found on our [Github repository](https://github.com/JortvD/cs4575-g5). 
 
-In figure 1, added below, we present the violin plots for each set, split into two categories: with and without uBlock Origin. The blue plots present the original distribution, while the orange plots show the distribution with outliers removed.
+In figure 1, added below, we present the violin plots for each set, split into two categories: with and without uBlock Origin. The blue plots represent the original distribution, while the orange plots show the distribution with outliers removed.
 
 **Figure 1:** Distribution of CPU total energy (J) per set and experiment
 ![Distribution of CPU total energy (J) per set and experiment](per-set.png)
@@ -137,17 +137,17 @@ We also provide detailed information per website in tables 3 and 4.
 | commission.europa.eu |             32.104 |               32.419 |                 0.679 |                   0.797 |                      0.14  |                        0.259 | 0.124        | N/A          |
 
 **Table 4: Effect of uBlock on CPU energy consumption per website, all in Joule (J)**
-| Domain               |   Mean diff (ΔX) | Mean change (%)   | Effect size (Cohen's d)   |
-|:---------------------|-----------------:|:------------------|:--------------------------|
-| www.msn.com          |           -4.664 | -10.148%          | -5.525                    |
-| apnews.com           |            2.975 | 4.442%            | N/A                       |
-| www.npr.org          |          -27.813 | -50.533%          | -9.935                    |
-| www.vice.com         |           -8.089 | -18.261%          | N/A                       |
-| www.nytimes.com      |          -13.827 | -18.095%          | -6.265                    |
-| time.com             |          -35.99  | -57.929%          | -19.571                   |
-| www.nasa.gov         |            0.163 | 0.408%            | 0.319                     |
-| www.bellingcat.com   |            0.589 | 2.3%              | 0.986                     |
-| commission.europa.eu |            0.315 | 0.98%             | 0.425                     |
+| Domain               |   Mean diff (ΔX) | Mean change (%)   | Effect size (Cohen's d)   | Ad-density Set |
+|:---------------------|-----------------:|:------------------|:--------------------------|:---------------|
+| www.msn.com          |           -4.664 | -10.148%          | -5.525                    | HIGH           | 
+| apnews.com           |            2.975 | 4.442%            | N/A                       | HIGH           | 
+| www.npr.org          |          -27.813 | -50.533%          | -9.935                    | HIGH           | 
+| www.vice.com         |           -8.089 | -18.261%          | N/A                       | MEDIUM         | 
+| www.nytimes.com      |          -13.827 | -18.095%          | -6.265                    | MEDIUM         | 
+| time.com             |          -35.99  | -57.929%          | -19.571                   | MEDIUM         | 
+| www.nasa.gov         |            0.163 | 0.408%            | 0.319                     | LOW            | 
+| www.bellingcat.com   |            0.589 | 2.3%              | 0.986                     | LOW            | 
+| commission.europa.eu |            0.315 | 0.98%             | 0.425                     | LOW            | 
 
 # Conclusion
 Our findings supports our initial hypothesis that ad-blocking can substantially reduce energy usage, supporting our hypothesis that blocking ads decreases CPU energy consumption. This effect is most pronounced on websites with moderate to high ad density, where enabling uBlock Origin resulted in a noticeable reduction in energy consumption—exceeding 30% in some cases (see Table 2). The reasoning behind this is straightforward: blocking ads prevents unnecessary network requests and reduces the number of scripts, animations, and video-based advertisements loaded onto the page, thereby lowering CPU workload and energy use.

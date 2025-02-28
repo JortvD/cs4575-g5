@@ -200,13 +200,14 @@ class Chromium:
 			self.get_executable(), 
 			'--disable-background-networking',
 			'--disable-background-timer-throttling',
-			f'--user-data-dir={self.get_user_folder()}', 
 			f'--remote-debugging-port={self.remote_debugging_port}', 
 			'--no-first-run', 
 			'--disable-component-extensions-with-background-pages', 
 			'--disable-default-apps',
 			tab_url
 		]
+		if platform.system() == 'Windows':
+			arguments.append(f'--user-data-dir={self.get_user_folder()}')
 		if extensions_folders is None or len(extensions_folders) > 0:
 			arguments.insert(1, f'--disable-extensions-except={extension_folders_str}')
 			arguments.insert(1, f'--load-extension={extension_folders_str}')
@@ -266,11 +267,10 @@ class Step:
 		for site in self.site_set:
 			print(f'> Opening {site}')
 			subprocess.run(self.chromium.args(site))
-			last_tab_id = self.chromium.get_last_tab_id()
-
 			# Give time for the tab to load
 			await asyncio.sleep(5)
-
+			
+			last_tab_id = self.chromium.get_last_tab_id()
 			self.chromium.close_tab(last_tab_id)
 
 			# Give time for the tab to close
@@ -280,6 +280,9 @@ class Step:
 		print('> Closing Chromium')
 		proc.kill()
 		await asyncio.sleep(1)
+		stdout, stderr = proc.communicate()
+		print("> EnergiBridge stderr:")
+		print(stderr.decode('utf-8')) 
 		self.chromium.close_all_tabs()
 		await asyncio.sleep(5)
 		end_time = time.time()
@@ -349,10 +352,12 @@ class StepSet:
 		self.chromium.close_all_tabs()
 		await asyncio.sleep(3)
 		
-		self.update_preferences()
+		if platform.system() == 'Windows':
+			self.update_preferences()
 
 	async def run(self):
 		start_time = time.time()
+		await self.reset_user_data()
 
 		for i, step in enumerate(self.steps):
 			print(f'Step {i + 1}/{len(self.steps)} (of total {self.n_sets * len(self.steps)}) -> options: {step.site_set_index}, {step.extension_folder_index}')
