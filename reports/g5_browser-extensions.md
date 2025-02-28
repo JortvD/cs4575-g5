@@ -6,7 +6,7 @@ date: 28/02/2025
 summary: |-
   This study evaluates the energy consumption of web browsers under different configurations and environments. 
   Specifically, we compare Chrome with two conditions: no extension and uBlock Origin on. uBlock Origin serves the purpose of blocking advertisements during navigation for users.
-  The goal is to assess how the extension impact power usage when the number of advertisements varies.
+  The goal is to assess how the extension impact energy consumption when the number of advertisements varies.
 ---
 
 # Introduction
@@ -21,18 +21,18 @@ However, the rise of online advertising has had a very negative impact on the us
 
 The debate around ad blockers has recently been intensified with Google Chrome’s announcement to weaken and remove many ad-blocking extensions, [including uBlock Origin](https://www.theverge.com/2024/10/15/24270981/google-chrome-ublock-origin-phaseout-manifest-v3-ad-blocker), one of the most widely used and effective ad blockers. This decision has sparked significant backlash from users who rely on these tools to improve their browsing experience. Beyond the implications for user experience and privacy, this move also raises questions about the broader impact of ad blockers on environmental efficiency and energy consumption.
 
-Thus, in this report, we aim to explore the power consumption of web browsers with and without ad blockers. Our hypothesis is that ad blockers reduce power usage by minimizing the number of extra requests and scripts executed during browsing, thereby decreasing the computational workload needed. Some studies have previously examined the power consumption associated with ad blocking[1, 2], and generally found a significant decrease in power consumption when using these extensions, though some exceptions have shown instances of increased consumption. 
+Thus, in this report, we aim to explore the energy consumption of web browsers with and without ad blockers. Our hypothesis is that ad blockers reduce energy consumption by minimizing the number of extra requests and scripts executed during browsing, thereby decreasing the computational workload needed. Some studies have previously examined the energy consumption associated with ad blocking[1, 2], and generally found a significant decrease in energy consumption when using these extensions, though some exceptions have shown instances of increased consumption. 
 
 # Methodology
 
-This report analyzes the **average power consumption** of web browsers with and without ad blockers. We focus on power consumption as it provides insight into the continuous usage of browsers over time. All measurementes are conducted using [EnergiBridge](https://github.com/tdurieux/EnergiBridge). For the measurement, we choose Joules as the unit because it provides a cumulative energy measure, which tells us exactly how much energy was consumed in total, independent of time variations.
+This report analyzes the **average energy consumption** of web browsers with and without ad blockers. We focus on energy consumption as it provides insight into the continuous usage of browsers over time. All measurementes are conducted using [EnergiBridge](https://github.com/tdurieux/EnergiBridge). For the measurement, we choose Joules as the unit because it provides a cumulative energy measure, which tells us exactly how much energy was consumed in total, independent of time variations.
 
 For this study, we use Chromium version 135.0.7026.0, as it serves as the foundation for many of the most widely used browsers, including Google Chrome, Microsoft Edge, and Brave, making it a strong representative choice. Testing on Chromium ensures that the results are relevant to a broad range of browsers built on the same engine. The ad blocker tested is uBlock Origin version 1.62.0, one of the most popular extensions, with approximately 39 million downloads, according to Chrome Web Store.
 
 ### Testing setup
-Our study evaluate Chromium's power consumption when browsing websites grouped by advertisement density. We classify websites into three categories — high, medium, and low ad density — with each one containing three different websites.
+Our study evaluate Chromium's energy consumption when browsing websites grouped by advertisement density. We classify websites into three categories — high, medium, and low ad density — with each one containing three different websites.
 
-A **step** is defined as launching Chromium and navigating through all three websites of one category. For each **experimental trial**, we conduct six steps: three (one for each category) with uBlock Origin enabled and three without. To reduce bias, the order of website sets was randomized during each trial. Because hardware temperature can influence power consumption, the very first trial (used as a warm-up) is excluded from the final analysis. In total, we repeated this trial 30 times.
+A **step** is defined as launching Chromium and navigating through all three websites of one category. For each **experimental trial**, we conduct six steps: three (one for each category) with uBlock Origin enabled and three without. To reduce bias, the order of website sets was randomized during each trial. Because hardware temperature can influence energy consumption, the very first trial (used as a warm-up) is excluded from the final analysis. In total, we repeated this trial 30 times.
 
 Within each step, the following actions are performed:
 1) Launch Chromium through EnergiBridge.
@@ -54,7 +54,7 @@ Finally, we ensure that configuration settings are kept consistent across the di
 
 ### Experimental Setup
 
-The experiments were conducted on two different devices, each equipped with distinct operating systems. By testing across multiple configurations, we can identify whether the impact of ad blocking on power usage is consistent or if it varies depending on the system. The specifications for each are specified below:
+The experiments were conducted on one device, The specifications for this device are specified below:
 
 | Laptop | Acer Nitro V15               |
 |--------|------------------------------|
@@ -62,75 +62,69 @@ The experiments were conducted on two different devices, each equipped with dist
 | RAM    | 32 GB                        |
 | OS     | Fedora Linux 41              |
 
+<!--Is there more relevent info to add here?-->
 
-|     |                              |
-|-----|------------------------------|
-|     |                              |
-|     |                              |
-|     |                              | 
-|     |                              |
-
+As a data processing step we remove the leading 5 seconds of data and only keep 18 seconds of data, 6 seconds for each website. This is done to ensure that the data is consistent across all trials and that the data is not skewed by the loading and closing of the browswer, which we found to not be deterministic.
 
 ## Results
 > The replication package for these experiments can be found on our [Github repository](https://github.com/JortvD/cs4575-g5). 
 
-The violin plots for the data collected are presented below (blue represents the original distribution and orange represents the distribution with removing outliers that are 1.5 IQR far from the mean):
+In figure 1, added below, we present the violin plots for each set, split into two categories: with and without uBlock Origin. The blue plots present the original distribution, while the orange plots show the distribution with outliers removed.
 
-### 1. A Lot of Ads
-![image](./images/Untitled.png)
+**Figure 1:** Distribution of CPU total energy (J) per set and experiment
+![Distribution of CPU total energy (J) per set and experiment](per-set.png)
 
-Set 0 refers to the websites containg a lot of ads. As can be seen the distributions are not normal. There a few possible reasons for why the distributions have two peaks.
+We present a more detailed view of the CPU energy consumption per set in table 1, including the mean, standard deviation, and the Shapiro-Wilk test for normality. We also present the results of the Welch t-test and the Mann-Whitney U test for the difference between the two distributions, depending on if the data is normally distributed or not respectively.
 
-One of them has to do with the browser cache. In particular, when these data were collected the script used to run the browser twice for each website before resetting the cache. Once with the adblock add-on and once without, chosing at random which to run first. Thus it is possible that the websites were cached the first time and then loading them the second time was faster and consumed less energy creating the two peaks for both the distributions.
-
-Another reason has to do with the network. It is possible that sometimes the websites loaded faster and other times slower, resulting into multiple peaks.
-
-In any case, the distributions, despite not being normal, visibly demonstrate that with the adblock (distribution 1 on the graph) less energy is spent. This was expected because the website no longer loads ads and doesn't consume any energy at displaying them.
-
-### 2. Some Ads
-![image](./images/Untitled(1).png)
-
-Set 1 refers to websites containing some amount of ads. Some interesting observations can be made here.
-
-For one, the second peak in the distributions no longer exists or is very tiny if outliers are included. This can possibly be explained by the caching effect not being as signifcant possibly because the websites contain less ads than before and there is less data to cache.
-
-In addition, we still see that the browser with the adblock is clearly more energy efficient. Again this happens because the non-ad version of the website loads less resourses and displays less content. 
-
-### 3. No Ads
-![image](./images/Untitled(2).png)
-
-Finally, set 2 refers to websites containing no ads.
-
-As we can see again, the caching effect is minimal for these websites too for the same reasons as before.
-
-In terms of energy efficiency, we can see that the distributions are almost identical, though maybe the adblock version is slightly worse. This was expected because these websites are the same no matter whether they are loaded with or without ads. The adblock may introduce a minimal overhead but it is not significant.
-
-Therefore our results show that in all cases examined, using an adblock is beneficial for energy efficiency.
-
-### All together
-
-**Figure 1:** Distribution of total CPU energy per set
-![Distribution of total CPU energy per set](per-set.png)
-
-**Figure 2:** Distribution of total CPU energy per site
-![Distribution of total CPU energy per site](per-site.png)
-
-**Table 1: CPU Energy Consumption per set**
+**Table 1: Details on CPU energy per set, all in Joule (J)**
 | Set    |   Mean (No uBlock) |   Mean (With uBlock) |   Std Dev (No uBlock) |   Std Dev (With uBlock) |   Shapiro-Wilk (No uBlock) |   Shapiro-Wilk (With uBlock) | t-test (p)   | U-test (p)   |
 |:-------|-------------------:|---------------------:|----------------------:|------------------------:|---------------------------:|-----------------------------:|:-------------|:-------------|
 | HIGH   |            167.109 |              137.896 |                11.508 |                  11.865 |                      0     |                        0.026 | N/A          | <0.001       |
 | MEDIUM |            181.628 |              124.173 |                 3.465 |                   2.871 |                      0.622 |                        0.826 | <0.001       | N/A          |
 | LOW    |             97.948 |               99.112 |                 0.95  |                   1.243 |                      0.796 |                        0.419 | <0.001       | N/A          |
 
+In addition we show the mean change and effect size in table 2.
 
-**Table 2: Effect of uBlock on CPU Energy Consumption Across Ad Density Levels**
+**Table 2: Effect of uBlock on CPU energy consumption across ad density levels, all in Joule (J)**
 | Set    |   Mean diff (ΔX) |   Mean change (%) |   Effect size (Cohen's d) |
 |:-------|-----------------:|------------------:|--------------------------:|
 | HIGH   |          -29.212 |          -17.481% |                       N/A |
 | MEDIUM |          -57.455 |          -31.633% |                   -18.058 |
 | LOW    |            1.163 |            1.188% |                     1.052 |
 
-**Table 3: CPU Energy Consumption Per Website**
+### 1. A Lot of Ads - HIGH
+As can be seen, and verified by the Shapiro-Wilk test, the distributions are not normal. There a few possible reasons for why the distributions have two peaks:
+
+- One reason could be the browser cache. The script ran the browser twice for each website before resetting the cache, once with the adblock add-on and once without, chosen at random. This might have caused the websites to load faster the second time, consuming less energy and creating two peaks in the distributions.
+- Another reason has to do with the network. It is possible that sometimes the websites loaded faster and other times slower, resulting into multiple peaks.
+
+Despite the distributions not being normal, we can use Mann–Whitney U-test to see there is a significant decrease in energy consumption when using uBlock for this set of websites, with $p<0.001$.
+
+### 2. Some Ads - MEDIUM
+Some interesting observations can be made here.
+
+For one, the second peak in the distributions no longer exists or is very small if outliers are included. This can possibly be explained by the caching effect not being as signifcant, possibly because the websites with many ads rely on more resources and so cache is used more often.
+
+In addition, we still see that the browser with the adblock is clearly more energy efficient, with a significant decrease in energy consumption, $p<0.001$. Here we should also remark that the effect size is very large, -18.058, which indicates a very strong effect.
+
+### 3. (Almost) no Ads - LOW
+<!--![image](./images/Untitled(2).png)-->
+
+As we can see again, the caching effect is minimal for these websites too, which we expect is for the same reasons as before.
+
+In terms of energy efficiency, we can see that the distributions appear to be almost identical. Because of the small standard deviations of both groups of data there is a significant increase in energy consumption when using the adblock, $p<0.001$. However, the effect size of this increase is around 1%.
+
+Therefore our results show that in all cases examined, using an adblock is beneficial for energy efficiency.
+
+### 4. Per site
+We can also extend the granularity to show results per website by splitting our collected data in 3 blocks of 6 seconds. Here we visualize the domains, not the full URL. In figure 2 we present a violin plot of the energy consumption per website, split into two categories: with and without uBlock Origin.
+
+**Figure 2:** Distribution of CPU energy (J) per site
+![Distribution of CPU energy (J) per site](per-site.png)
+
+We also provide detailed information per website in tables 3 and 4.
+
+**Table 3: CPU energy consumption per website, all in Joule (J)**
 | Domain               |   Mean (No uBlock) |   Mean (With uBlock) |   Std dev (No uBlock) |   Std dev (With uBlock) |   Shapiro-Wilk (No uBlock) |   Shapiro-Wilk (With uBlock) | t-test (p)   | U-test (p)   |
 |:---------------------|-------------------:|---------------------:|----------------------:|------------------------:|---------------------------:|-----------------------------:|:-------------|:-------------|
 | www.msn.com          |             45.958 |               41.294 |                 0.835 |                   0.853 |                      0.758 |                        0.061 | <0.001       | N/A          |
@@ -143,7 +137,7 @@ Therefore our results show that in all cases examined, using an adblock is benef
 | www.bellingcat.com   |             25.621 |               26.211 |                 0.471 |                   0.702 |                      0.788 |                        0.944 | <0.001       | N/A          |
 | commission.europa.eu |             32.104 |               32.419 |                 0.679 |                   0.797 |                      0.14  |                        0.259 | 0.124        | N/A          |
 
-**Table 4: Effect of uBlock on CPU Energy Consumption Per Website**
+**Table 4: Effect of uBlock on CPU energy consumption per website, all in Joule (J)**
 | Domain               |   Mean diff (ΔX) | Mean change (%)   | Effect size (Cohen's d)   |
 |:---------------------|-----------------:|:------------------|:--------------------------|
 | www.msn.com          |           -4.664 | -10.148%          | -5.525                    |
@@ -157,9 +151,9 @@ Therefore our results show that in all cases examined, using an adblock is benef
 | commission.europa.eu |            0.315 | 0.98%             | 0.425                     |
 
 # Conclusions and Future Works
-Our findings supports our initial hypothesis that ad-blocking can substantially reduce energy usage, supporting our hypothesis that blocking ads decreases CPU power consumption. This effect is most pronounced on websites with moderate to high ad density, where enabling uBlock Origin resulted in a noticeable reduction in energy consumption—exceeding 30% in some cases (see Table 2). The reasoning behind this is straightforward: blocking ads prevents unnecessary network requests and reduces the number of scripts, animations, and video-based advertisements loaded onto the page, thereby lowering CPU workload and energy use.
+Our findings supports our initial hypothesis that ad-blocking can substantially reduce energy usage, supporting our hypothesis that blocking ads decreases CPU energy consumption. This effect is most pronounced on websites with moderate to high ad density, where enabling uBlock Origin resulted in a noticeable reduction in energy consumption—exceeding 30% in some cases (see Table 2). The reasoning behind this is straightforward: blocking ads prevents unnecessary network requests and reduces the number of scripts, animations, and video-based advertisements loaded onto the page, thereby lowering CPU workload and energy use.
 
-However, when browsing ad-free websites, the results indicate that the ad blocker does not contribute any energy savings. In fact, a slight increase in power consumption was observed, likely due to the ad blocker introducing a small, fixed computational overhead while operating.
+However, when browsing ad-free websites, the results indicate that the ad blocker does not contribute any energy savings. In fact, a slight increase in energy consumption was observed, likely due to the ad blocker introducing a small, fixed computational overhead while operating.
 
 Additionally, the analysis of CPU energy distributions revealed non-normal distributions for ad-heavy sites. Given that the number of repetitions in our experiments was 30, this sample size may not be sufficient for the distribution to fully converge, particularly for datasets with high variance. Our findings indicate that ad-heavy sites exhibit a higher standard deviation compared to the other sets, suggesting that more trials may be required to converge a stable and meaningful distribution. Increasing the number of repetitions could help reduce variability and provide a clearer picture of the underlying energy consumption patterns.
 
@@ -169,10 +163,10 @@ In the future, we could improve based on three main aspects:
 
 2. Increase Sample Size and Experiment Repetitions. Conducting more trials and increasing the sample size would strengthen the statistical significance of the findings, reducing the effects of random variations in network speed, caching behavior, and background system processes. Moreover, we are likely to get a better shaped normally distributed graph if there are more trials.
 
-3. Analyze GPU and Network Energy Consumption. While our study primarily focused on CPU power usage, the energy consumed by the GPU and network interface could also be interesting to look at. GPU is often used for rendering rich media ads, and ad-blocking may shift some computational load from the GPU to the CPU. Similarly, blocking ads reduces data transmission, which could decrease energy consumption on wireless devices by lowering network activity and bandwidth usage.
+3. Analyze GPU and Network Energy Consumption. While our study primarily focused on CPU energy consumption, the energy consumed by the GPU and network interface could also be interesting to look at. GPU is often used for rendering rich media ads, and ad-blocking may shift some computational load from the GPU to the CPU. Similarly, blocking ads reduces data transmission, which could decrease energy consumption on wireless devices by lowering network activity and bandwidth usage.
 
 # References
-[1] Khan, K. A., Iqbal, M. T., & Jamil, M. (2024). Impact of Ad Blockers on Computer Power Consumption while Web Browsing: A Comparative Analysis. European Journal of Electrical Engineering and Computer Science, 8(5), 18-24.
+[1] Khan, K. A., Iqbal, M. T., & Jamil, M. (2024). Impact of Ad Blockers on Computer energy consumption while Web Browsing: A Comparative Analysis. European Journal of Electrical Engineering and Computer Science, 8(5), 18-24.
 
 [2] Kent Rasmussen, Alex Wilson, and Abram Hindle. (2014). Green mining: energy consumption of advertisement blocking methods. In Proceedings of the 3rd International Workshop on Green and Sustainable Software (GREENS 2014). Association for Computing Machinery, New York, NY, USA, 38–45. https://doi.org/10.1145/2593743.2593749
 <!-- #### 👉 Note 1:
