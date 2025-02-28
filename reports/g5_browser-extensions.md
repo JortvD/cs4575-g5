@@ -5,8 +5,9 @@ image: "../img/p1_measuring_software/gX_template/cover.png"
 date: 28/02/2025
 summary: |-
   This study evaluates the energy consumption of web browsers under different configurations and environments. 
-  Specifically, we compare Chrome with two conditions: no extension and uBlock Origin on. uBlock Origin serves the purpose of blocking advertisements during navigation for users.
-  The goal is to assess how the extension impact energy consumption when the number of advertisements varies.
+  Specifically, we compare Chrome with two conditions: using no extension and using uBlock Origin. This extension serves the purpose of blocking advertisements and trackers when using your browser.
+  The goal is to assess how the extension impacts energy consumption when the number of advertisements varies.
+  We find that uBlock Origin significantly reduces energy consumption when browsing websites with high and medium ad density, but not when browsing websites with low ad density.
 ---
 
 # Introduction
@@ -24,12 +25,11 @@ The debate around ad blockers has recently been intensified with Google Chrome�
 Thus, in this report, we aim to explore the energy consumption of web browsers with and without ad blockers. Our hypothesis is that ad blockers reduce energy consumption by minimizing the number of extra requests and scripts executed during browsing, thereby decreasing the computational workload needed. Some studies have previously examined the energy consumption associated with ad blocking[1, 2], and generally found a significant decrease in energy consumption when using these extensions, though some exceptions have shown instances of increased consumption. 
 
 # Methodology
-
 This report analyzes the **average energy consumption** of web browsers with and without ad blockers. We focus on energy consumption as it provides insight into the continuous usage of browsers over time. All measurementes are conducted using [EnergiBridge](https://github.com/tdurieux/EnergiBridge). For the measurement, we choose Joules as the unit because it provides a cumulative energy measure, which tells us exactly how much energy was consumed in total, independent of time variations.
 
 For this study, we use Chromium version 135.0.7026.0, as it serves as the foundation for many of the most widely used browsers, including Google Chrome, Microsoft Edge, and Brave, making it a strong representative choice. Testing on Chromium ensures that the results are relevant to a broad range of browsers built on the same engine. The ad blocker tested is uBlock Origin version 1.62.0, one of the most popular extensions, with approximately 39 million downloads, according to Chrome Web Store.
 
-### Testing setup
+## Testing Setup
 Our study evaluate Chromium's energy consumption when browsing websites grouped by advertisement density. We classify websites into three categories — high, medium, and low ad density — with each one containing three different websites.
 
 A **step** is defined as launching Chromium and navigating through all three websites of one category. For each **experimental trial**, we conduct six steps: three (one for each category) with uBlock Origin enabled and three without. To reduce bias, the order of website sets was randomized during each trial. Because hardware temperature can influence energy consumption, the very first trial (used as a warm-up) is excluded from the final analysis. In total, we repeated this trial 30 times.
@@ -52,9 +52,8 @@ Finally, we ensure that configuration settings are kept consistent across the di
 - Stable internet connection over ethernet cable
 - Screen brigtness display at 100% 
 
-### Experimental Setup
-
-The experiments were conducted on one device, The specifications for this device are specified below:
+## Experimental Setup
+The experiments were conducted on one device, for which the specifications are as follows:
 
 | Laptop | Acer Nitro V15               |
 |--------|------------------------------|
@@ -66,7 +65,7 @@ The experiments were conducted on one device, The specifications for this device
 
 As a data processing step we remove the leading 5 seconds of data and only keep 18 seconds of data, 6 seconds for each website. This is done to ensure that the data is consistent across all trials and that the data is not skewed by the loading and closing of the browswer, which we found to not be deterministic.
 
-## Results
+# Results
 > The replication package for these experiments can be found on our [Github repository](https://github.com/JortvD/cs4575-g5). 
 
 In figure 1, added below, we present the violin plots for each set, split into two categories: with and without uBlock Origin. The blue plots present the original distribution, while the orange plots show the distribution with outliers removed.
@@ -92,7 +91,7 @@ In addition we show the mean change and effect size, using Cohen's d, in table 2
 | MEDIUM |          -57.455 |          -31.633% |                   -18.058 |
 | LOW    |            1.163 |            1.188% |                     1.052 |
 
-### 1. A Lot of Ads - HIGH
+## A Lot of Ads - HIGH
 As can be seen, and verified by the Shapiro-Wilk test, the distributions are not normal. There a few possible reasons for why the distributions have two peaks:
 
 - One reason could be the browser cache. The script ran the browser twice for each website before resetting the cache, once with the adblock add-on and once without, chosen at random. This might have caused the websites to load faster the second time, consuming less energy and creating two peaks in the distributions.
@@ -100,14 +99,14 @@ As can be seen, and verified by the Shapiro-Wilk test, the distributions are not
 
 Despite the distributions not being normal, we can use Mann–Whitney U-test to see there is a significant decrease in energy consumption when using uBlock for this set of websites, with $p<0.001$.
 
-### 2. Some Ads - MEDIUM
+## Some Ads - MEDIUM
 Some interesting observations can be made here.
 
 For one, the second peak in the distributions no longer exists or is very small if outliers are included. This can possibly be explained by the caching effect not being as signifcant, possibly because the websites with many ads rely on more resources and so cache is used more often.
 
 In addition, we still see that the browser with the adblock is clearly more energy efficient, with a significant decrease in energy consumption, $p<0.001$. Here we should also remark that the effect size is very large, -18.058, which indicates a very strong effect.
 
-### 3. (Almost) no Ads - LOW
+## (Almost) no Ads - LOW
 <!--![image](./images/Untitled(2).png)-->
 
 As we can see again, the caching effect is minimal for these websites too, which we expect is for the same reasons as before.
@@ -116,7 +115,7 @@ In terms of energy efficiency, we can see that the distributions appear to be al
 
 Therefore our results show that in all cases examined, using an adblock is beneficial for energy efficiency.
 
-### 4. Per site
+## Per site
 We can also extend the granularity to show results per website by splitting our collected data in 3 blocks of 6 seconds. Here we visualize the domains, not the full URL. In figure 2 we present a violin plot of the energy consumption per website, split into two categories: with and without uBlock Origin.
 
 **Figure 2:** Distribution of CPU energy (J) per site
@@ -150,7 +149,7 @@ We also provide detailed information per website in tables 3 and 4.
 | www.bellingcat.com   |            0.589 | 2.3%              | 0.986                     |
 | commission.europa.eu |            0.315 | 0.98%             | 0.425                     |
 
-# Conclusions and Future Works
+# Conclusion
 Our findings supports our initial hypothesis that ad-blocking can substantially reduce energy usage, supporting our hypothesis that blocking ads decreases CPU energy consumption. This effect is most pronounced on websites with moderate to high ad density, where enabling uBlock Origin resulted in a noticeable reduction in energy consumption—exceeding 30% in some cases (see Table 2). The reasoning behind this is straightforward: blocking ads prevents unnecessary network requests and reduces the number of scripts, animations, and video-based advertisements loaded onto the page, thereby lowering CPU workload and energy use.
 
 However, when browsing ad-free websites, the results indicate that the ad blocker does not contribute any energy savings. In fact, a slight increase in energy consumption was observed, likely due to the ad blocker introducing a small, fixed computational overhead while operating.
