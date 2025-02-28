@@ -1,6 +1,6 @@
 ---
 author: Jort van Driel, Dorian Erhan, Weicheng Hu, Giannos Rekkas
-title: "Investigating how ad blocker plug-ins in browsers affect energy consumption"
+title: "Investigating how using uBlock Origin affects energy consumption"
 image: "../img/p1_measuring_software/gX_template/cover.png"
 date: 28/02/2025
 summary: |-
