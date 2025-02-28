@@ -83,7 +83,7 @@ We present a more detailed view of the CPU energy consumption per set in table 1
 | MEDIUM |            181.628 |              124.173 |                 3.465 |                   2.871 |                      0.622 |                        0.826 | <0.001       | N/A          |
 | LOW    |             97.948 |               99.112 |                 0.95  |                   1.243 |                      0.796 |                        0.419 | <0.001       | N/A          |
 
-In addition we show the mean change and effect size in table 2.
+In addition we show the mean change and effect size, using Cohen's d, in table 2.
 
 **Table 2: Effect of uBlock on CPU energy consumption across ad density levels, all in Joule (J)**
 | Set    |   Mean diff (ΔX) |   Mean change (%) |   Effect size (Cohen's d) |
@@ -166,7 +166,7 @@ In the future, we could improve based on three main aspects:
 3. Analyze GPU and Network Energy Consumption. While our study primarily focused on CPU energy consumption, the energy consumed by the GPU and network interface could also be interesting to look at. GPU is often used for rendering rich media ads, and ad-blocking may shift some computational load from the GPU to the CPU. Similarly, blocking ads reduces data transmission, which could decrease energy consumption on wireless devices by lowering network activity and bandwidth usage.
 
 # References
-[1] Khan, K. A., Iqbal, M. T., & Jamil, M. (2024). Impact of Ad Blockers on Computer energy consumption while Web Browsing: A Comparative Analysis. European Journal of Electrical Engineering and Computer Science, 8(5), 18-24.
+[1] Khan, K. A., Iqbal, M. T., & Jamil, M. (2024). Impact of Ad Blockers on Computer Power Consumption while Web Browsing: A Comparative Analysis. European Journal of Electrical Engineering and Computer Science, 8(5), 18-24.
 
 [2] Kent Rasmussen, Alex Wilson, and Abram Hindle. (2014). Green mining: energy consumption of advertisement blocking methods. In Proceedings of the 3rd International Workshop on Green and Sustainable Software (GREENS 2014). Association for Computing Machinery, New York, NY, USA, 38–45. https://doi.org/10.1145/2593743.2593749
 <!-- #### 👉 Note 1:
