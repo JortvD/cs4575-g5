@@ -71,20 +71,22 @@ As a data processing step we remove the leading 5 seconds of data and only keep 
 In figure 1, added below, we present the violin plots for each set, split into two categories: with and without uBlock Origin. The blue plots represent the original distribution, while the orange plots show the distribution with outliers removed.
 
 **Figure 1:** Distribution of CPU total energy (J) per set and experiment
-![Distribution of CPU total energy (J) per set and experiment](per-set.png)
+![Distribution of CPU energy (J) per set](../img/p1_measuring_software/g5_browser-extensions/per-set.png)
 
 We present a more detailed view of the CPU energy consumption per set in table 1, including the mean, standard deviation, and the Shapiro-Wilk test for normality. We also present the results of the Welch t-test and the Mann-Whitney U test for the difference between the two distributions, depending on if the data is normally distributed or not respectively.
 
 **Table 1: Details on CPU energy per set, all in Joule (J)**
-| Set    |   Mean (No uBlock) |   Mean (With uBlock) |   Std Dev (No uBlock) |   Std Dev (With uBlock) |   Shapiro-Wilk (No uBlock) |   Shapiro-Wilk (With uBlock) | t-test (p)   | U-test (p)   |
-|:-------|-------------------:|---------------------:|----------------------:|------------------------:|---------------------------:|-----------------------------:|:-------------|:-------------|
-| HIGH   |            167.109 |              137.896 |                11.508 |                  11.865 |                      0     |                        0.026 | N/A          | <0.001       |
-| MEDIUM |            181.628 |              124.173 |                 3.465 |                   2.871 |                      0.622 |                        0.826 | <0.001       | N/A          |
-| LOW    |             97.948 |               99.112 |                 0.95  |                   1.243 |                      0.796 |                        0.419 | <0.001       | N/A          |
+
+| Set    | Mean (No uBlock) | Mean (With uBlock) | Std Dev (No uBlock) | Std Dev (With uBlock) | Shapiro-Wilk (No uBlock) | Shapiro-Wilk (With uBlock) | t-test (p) | U-test (p) |
+|:-------|-----------------:|--------------------|---------------------|-----------------------|--------------------------|----------------------------|-----------|-----------|
+| HIGH   | 167.109          | 137.896           | 11.508              | 11.865                | 0                        | 0.026                      | N/A       | <0.001    |
+| MEDIUM | 181.628          | 124.173           | 3.465               | 2.871                 | 0.622                    | 0.826                      | <0.001    | N/A       |
+| LOW    | 97.948           | 99.112            | 0.95                | 1.243                 | 0.796                    | 0.419                      | <0.001    | N/A       |
 
 In addition we show the mean change and effect size, using Cohen's d, in table 2.
 
 **Table 2: Effect of uBlock on CPU energy consumption across ad density levels, all in Joule (J)**
+
 | Set    |   Mean diff (ΔX) |   Mean change (%) |   Effect size (Cohen's d) |
 |:-------|-----------------:|------------------:|--------------------------:|
 | HIGH   |          -29.212 |          -17.481% |                       N/A |
@@ -119,11 +121,12 @@ Therefore our results show that in all cases examined, using an adblock is benef
 We can also extend the granularity to show results per website by splitting our collected data in 3 blocks of 6 seconds. Here we visualize the domains, not the full URL. In figure 2 we present a violin plot of the energy consumption per website, split into two categories: with and without uBlock Origin.
 
 **Figure 2:** Distribution of CPU energy (J) per site
-![Distribution of CPU energy (J) per site](per-site.png)
+![Distribution of CPU energy (J) per site](../img/p1_measuring_software/g5_browser-extensions/per-site.png)
 
 We also provide detailed information per website in tables 3 and 4.
 
 **Table 3: CPU energy consumption per website, all in Joule (J)**
+
 | Domain               |   Mean (No uBlock) |   Mean (With uBlock) |   Std dev (No uBlock) |   Std dev (With uBlock) |   Shapiro-Wilk (No uBlock) |   Shapiro-Wilk (With uBlock) | t-test (p)   | U-test (p)   |
 |:---------------------|-------------------:|---------------------:|----------------------:|------------------------:|---------------------------:|-----------------------------:|:-------------|:-------------|
 | www.msn.com          |             45.958 |               41.294 |                 0.835 |                   0.853 |                      0.758 |                        0.061 | <0.001       | N/A          |
@@ -137,6 +140,7 @@ We also provide detailed information per website in tables 3 and 4.
 | commission.europa.eu |             32.104 |               32.419 |                 0.679 |                   0.797 |                      0.14  |                        0.259 | 0.124        | N/A          |
 
 **Table 4: Effect of uBlock on CPU energy consumption per website, all in Joule (J)**
+
 | Domain               |   Mean diff (ΔX) | Mean change (%)   | Effect size (Cohen's d)   | Ad-density Set |
 |:---------------------|-----------------:|:------------------|:--------------------------|:---------------|
 | www.msn.com          |           -4.664 | -10.148%          | -5.525                    | HIGH           | 
@@ -154,13 +158,13 @@ Our findings supports our initial hypothesis that ad-blocking can substantially 
 
 However, when browsing ad-free websites, the results indicate that the ad blocker does not contribute any energy savings. In fact, a slight increase in energy consumption was observed, likely due to the ad blocker introducing a small, fixed computational overhead while operating.
 
-Additionally, the analysis of CPU energy distributions revealed non-normal distributions for ad-heavy sites. Given that the number of repetitions in our experiments was 30, this sample size may not be sufficient for the distribution to fully converge, particularly for datasets with high variance. Our findings indicate that ad-heavy sites exhibit a higher standard deviation compared to the other sets, suggesting that more trials may be required to converge a stable and meaningful distribution. Increasing the number of repetitions could help reduce variability and provide a clearer picture of the underlying energy consumption patterns.
+
 
 In the future, we could improve based on three main aspects:
 
-1. Since our study focuses on Chromium-based browsers, future research should examine whether the same trends hold for other browser engines such as Mozilla Firefox (Gecko), Microsoft Edge (Chromium-based), and Tor Browser (which prioritizes privacy but may have different energy implications). Similarly, evaluating alternative ad blockers (e.g., AdBlock Plus, Ghostery, Privacy Badger) could determine if their filtering mechanisms have varying impacts on CPU energy usage.
+1. Increase Sample Size and Experiment Repetitions. Conducting more trials and increasing the sample size would strengthen the statistical significance of the findings. Previously the analysis of CPU energy distributions revealed non-normal distributions for ad-heavy sites. Given that the number of repetitions in our experiments was 30, another likely reason that is not related to cachings is this sample size may not be sufficient for the distribution to fully converge, particularly for datasets with high variance. Our findings indicate that ad-heavy sites exhibit a higher standard deviation compared to the other sets, suggesting that more trials may be required to converge a stable and meaningful distribution. Increasing the number of repetitions could help reduce variability and provide a clearer picture of the underlying energy consumption patterns.
 
-2. Increase Sample Size and Experiment Repetitions. Conducting more trials and increasing the sample size would strengthen the statistical significance of the findings, reducing the effects of random variations in network speed, caching behavior, and background system processes. Moreover, we are likely to get a better shaped normally distributed graph if there are more trials.
+2. Since our study focuses on Chromium-based browsers, future research should examine whether the same trends hold for other browser engines such as Mozilla Firefox (Gecko), Microsoft Edge (Chromium-based), and Tor Browser (which prioritizes privacy but may have different energy implications). Similarly, evaluating alternative ad blockers (e.g., AdBlock Plus, Ghostery, Privacy Badger) could determine if their filtering mechanisms have varying impacts on CPU energy usage.
 
 3. Analyze GPU and Network Energy Consumption. While our study primarily focused on CPU energy consumption, the energy consumed by the GPU and network interface could also be interesting to look at. GPU is often used for rendering rich media ads, and ad-blocking may shift some computational load from the GPU to the CPU. Similarly, blocking ads reduces data transmission, which could decrease energy consumption on wireless devices by lowering network activity and bandwidth usage.
 
